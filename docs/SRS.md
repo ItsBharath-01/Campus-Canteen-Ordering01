@@ -2,7 +2,7 @@
 ## Campus Canteen Ordering System
 
 - **Document status:** Draft for classroom review
-- **Version:** 0.1
+- **Version:** 0.2
 - **Source:** Customer-discovery discussion in this repository
 
 ## 1. Purpose
@@ -26,7 +26,8 @@ status. It will also help canteen staff review and process incoming orders.
 - Real payment gateway integration.
 - Off-campus delivery.
 - Advanced stock forecasting or accounting integration.
-- A final order-cancellation workflow; the policy requires stakeholder agreement.
+- Cancellation after preparation has started is not supported.
+- Real payment processing, payment reversals, and refunds are outside the initial prototype.
 
 ## 3. Stakeholders and users
 
@@ -90,7 +91,22 @@ The initial statuses are Submitted, Preparing, Ready, and Completed.
 - A student can view the status of their own order.
 - Status changes made by authorized canteen staff are reflected when the order is viewed again.
 
-## 5. Non-functional requirements
+
+### FR-006 — Cancel a submitted order
+
+The system shall allow a student to cancel their own order while its status is
+`Submitted`. Once an order's status has changed to `Preparing`, the student
+shall not be able to cancel it through the application.
+
+**Acceptance criteria**
+- Given that a student's own order is `Submitted`, when the student requests
+  cancellation, the system changes the order status to `Cancelled` and displays
+  a confirmation.
+- Given that an order is `Preparing`, `Ready`, `Completed`, or `Cancelled`,
+  when the student requests cancellation, the system rejects the request and
+  explains that cancellation is not available for the current status.
+
+## 5. Non-functional requirements  
 
 ### NFR-001 — Menu response time
 
@@ -123,7 +139,11 @@ them, subject to the permissions defined for the system.
 - The total is calculated from item prices and quantities; taxes and service charges are excluded from the initial prototype.
 - Initial order statuses are Submitted, Preparing, Ready, and Completed.
 - Real payment processing is outside the initial scope.
-- The cancellation policy remains unresolved and must not be implemented as a confirmed rule until the stakeholder decides it.
+- A student may cancel only their own order while its status is `Submitted`.
+- A successful cancellation changes the order status to `Cancelled`.
+- Once the order status is `Preparing`, `Ready`, or `Completed`, the student
+  cannot cancel the order through the application.
+- A rejected cancellation request must not change the order's current status.
 
 ## 7. Assumptions and constraints
 
@@ -134,7 +154,6 @@ them, subject to the permissions defined for the system.
 
 ## 8. Open questions
 
-- At what point, if any, can a student cancel an order?
 - Which role is allowed to add, edit, or disable menu items?
 - What authentication method will be used if the prototype becomes a deployed system?
 - Who approves the performance target and test environment?
@@ -146,3 +165,9 @@ each requirement and will include its ID in the Issue title and description.
 The team will review the SRS for clarity, completeness, consistency, feasibility,
 and testability. Implementation and test links will be added as they become
 available in later labs.
+
+## Change history
+
+| Version | Change | Status |
+|---|---|---|
+| 0.2 | Added FR-006 and clarified the order-cancellation policy based on stakeholder decision. | Under review |
